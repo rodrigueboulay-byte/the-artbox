@@ -22,3 +22,18 @@ if ($description === ''){
     $erreurs['description'] = "La description doit contenir au moins 3 caractères.";
 }
 
+if (isset($_POST['submit']) && empty($erreurs)) {
+    include 'bdd.php';
+    $pdo = connect();
+    $stmt = $pdo->prepare('INSERT INTO oeuvres (titre, artiste, image, description) VALUES (?, ?, ?, ?)');
+    $stmt->execute([$titre, $artiste, $image, $description]);
+    header('Location: index.php');
+    exit;
+} else {
+    session_start();
+    $_SESSION['erreurs'] = $erreurs;
+    $_SESSION['old'] = $_POST;
+    header('Location: ajouter.php');
+    exit;
+}
+?>
