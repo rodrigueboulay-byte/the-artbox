@@ -3,6 +3,10 @@
     include 'bdd.php';
     $pdo = connect();
     $oeuvre = getOeuvreById($pdo);
+    if (!$oeuvre) {
+        header('Location: index.php');
+        exit;
+    }
 ?>
 
 <article id="detail-oeuvre">
