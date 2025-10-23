@@ -1,6 +1,5 @@
 <?php
     require 'header.php';
-    require 'oeuvres.php';
     include 'bdd.php';
     $pdo = connect();
     $oeuvres = getAllOeuvres($pdo);
