@@ -1,6 +1,9 @@
 <?php
     require 'header.php';
     require 'oeuvres.php';
+    include 'bdd.php';
+    $pdo = connect();
+    $oeuvres = getAllOeuvres($pdo);
 ?>
 <div id="liste-oeuvres">
     <?php foreach($oeuvres as $oeuvre): ?>
