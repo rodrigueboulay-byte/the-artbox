@@ -1,11 +1,11 @@
 <?php
     require 'header.php';
-    include 'bdd.php';
-    $pdo = connect();
-    $oeuvre = getOeuvreById($pdo);
-    if (!$oeuvre) {
+    include 'bdd.php'; // Inclusion du fichier de connexion à la base de données
+    $pdo = connect(); // Connexion à la base de données
+    $oeuvre = getOeuvreById($pdo); // Récupération de l'œuvre par son ID
+    if (!$oeuvre) { // Si l'œuvre n'existe pas, redirection vers la page d'accueil
         header('Location: index.php');
-        exit;
+        exit; 
     }
 ?>
 

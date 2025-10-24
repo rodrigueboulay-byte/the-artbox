@@ -1,8 +1,8 @@
 <?php
     require 'header.php';
-    include 'bdd.php';
-    $pdo = connect();
-    $oeuvres = getAllOeuvres($pdo);
+    include 'bdd.php'; // Inclusion du fichier de connexion à la base de données
+    $pdo = connect(); // Connexion à la base de données
+    $oeuvres = getAllOeuvres($pdo); // Récupération de toutes les œuvres
 ?>
 <div id="liste-oeuvres">
     <?php foreach($oeuvres as $oeuvre): ?>
