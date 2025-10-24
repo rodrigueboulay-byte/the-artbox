@@ -19,7 +19,7 @@ if (!filter_var($image, FILTER_VALIDATE_URL) && !empty($image))  // Vérificatio
 
 
 if (isset($_POST['submit']) && empty($erreurs)) { // Si le formulaire est soumis et qu'il n'y a pas d'erreurs
-    include 'bdd.php'; 
+    include 'bdd.php'; // Inclusion du fichier de connexion à la base de données
     $pdo = connect();
     $stmt = $pdo->prepare('INSERT INTO oeuvres (titre, artiste, image, description) VALUES (?, ?, ?, ?)'); 
     $stmt->execute([$titre, $artiste, $image, $description]);
