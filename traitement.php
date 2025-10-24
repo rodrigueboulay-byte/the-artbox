@@ -5,29 +5,23 @@ $image = $_POST['image'] ?? '';
 $description = $_POST['description'] ?? '';
 $erreurs = [];
 
-if ($titre === ''){
-    $erreurs['titre'] = "Le titre est obligatoire.";
-} 
-if ($artiste === ''){
-    $erreurs['artiste'] = "L'artiste est obligatoire.";
+foreach (['titre','artiste','image','description'] as $champ) {
+    if (empty($_POST[$champ])) $erreurs[$champ] = ucfirst($champ)." est obligatoire.";
 }
-if ($image === ''){
-    $erreurs['image'] = "L'image est obligatoire.";
-} elseif (!filter_var($image, FILTER_VALIDATE_URL)){
-    $erreurs['image'] = "L'URL de l'image n'est pas valide";
-}
-if ($description === ''){
-    $erreurs['description'] = "La description est obligatoire.";
-} elseif (strlen($description) < 3){
+
+if (!empty($_POST['image']) && !filter_var($_POST['image'], FILTER_VALIDATE_URL))
+    $erreurs['image'] = "L'URL de l'image n'est pas valide.";
+
+if (!empty($_POST['description']) && strlen($_POST['description']) < 3)
     $erreurs['description'] = "La description doit contenir au moins 3 caractères.";
-}
+
 
 if (isset($_POST['submit']) && empty($erreurs)) {
     include 'bdd.php';
     $pdo = connect();
     $stmt = $pdo->prepare('INSERT INTO oeuvres (titre, artiste, image, description) VALUES (?, ?, ?, ?)');
     $stmt->execute([$titre, $artiste, $image, $description]);
-    header('Location: index.php');
+    header('Location: oeuvre.php?id=' . $pdo->lastInsertId());
     exit;
 } else {
     session_start();
