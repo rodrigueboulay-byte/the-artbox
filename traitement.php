@@ -5,15 +5,17 @@ $image = $_POST['image'] ?? '';
 $description = $_POST['description'] ?? '';
 $erreurs = []; // Tableau pour stocker les messages d'erreur
 
-foreach (['titre','artiste','image','description'] as $champ) { // Vérification des champs obligatoires
-    if (empty($_POST[$champ])) $erreurs[$champ] = ucfirst($champ)." est obligatoire."; // Message d'erreur si le champ est vide
+foreach(['titre','artiste','image','description'] as $field) { 
+    if (empty($_POST[$field])) { // Vérification des champs obligatoires
+        $erreurs[] = "Le champ " . htmlspecialchars($field) . " est obligatoire.";
+    }
 }
+if (strlen($description) < 3 && !empty($description))  // Vérification de la longueur de la description
+    $erreurs[] = "La description doit au moins contenir 3 caracteres.";
 
-if (!empty($_POST['image']) && !filter_var($_POST['image'], FILTER_VALIDATE_URL)) // Validation de l'URL de l'image
-    $erreurs['image'] = "L'URL de l'image n'est pas valide.";
 
-if (!empty($_POST['description']) && strlen($_POST['description']) < 3) // Validation de la description
-    $erreurs['description'] = "La description doit contenir au moins 3 caractères.";
+if (!filter_var($image, FILTER_VALIDATE_URL) && !empty($image))  // Vérification de l'URL de l'image
+    $erreurs[] = "L'URL de l'image n'est pas valide.";
 
 
 if (isset($_POST['submit']) && empty($erreurs)) { // Si le formulaire est soumis et qu'il n'y a pas d'erreurs
